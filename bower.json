@@ -5,7 +5,7 @@
     "Jeff G"
   ],
   "description": "Intégration de la librairie synth angular à symfony2",
-  "main": "Resources/public/js/synth-angular.js",
+  "main": "src/synth-angular.js",
   "keywords": [
     "[\"form\"",
     "\"extra",
