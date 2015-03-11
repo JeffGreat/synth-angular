@@ -1,0 +1,19 @@
+{
+  "name": "apsynf/synth-angular-bundle",
+  "version": "1.0.1",
+  "authors": [
+    "Jeff G"
+  ],
+  "description": "Intégration de la librairie synth angular à symfony2",
+  "main": "Resources/public/js/synth-angular.js",
+  "keywords": [
+    "[\"form\"",
+    "\"extra",
+    "form\"",
+    "\"bootstrap\"",
+    "\"bootstrap",
+    "form\"",
+    "\"template\"]"
+  ],
+  "license": "MIT"
+}
