@@ -1,10 +1,10 @@
-{
+﻿{
   "name": "synth-angular",
   "version": "1.0.1",
   "authors": [
     "Jeff G"
   ],
-  "description": "Intégration de la librairie synth angular à symfony2",
+  "description": "librairie angular synth",
   "main": "src/synth-angular.js",
   "keywords": [
     "[\"form\"",
