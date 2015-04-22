@@ -40,8 +40,8 @@ synthAngular.provider('$apiManager', function () {
         }];
 });
 
-synthAngular.service('$uiManager', ['$apiManager', '$filter', '$collectionManager', '$formManager', '$sockets', 'syTools', '$q',
-    function ($apiManager, $filter, $collectionManager, $formManager, $sockets, syTools, $q) {
+synthAngular.service('$uiManager', ['$apiManager', '$filter', '$collectionManager', '$sockets', 'syTools', '$q',
+    function ($apiManager, $filter, $collectionManager, $sockets, syTools, $q) {
         this.defaults = {
             collection: undefined,
             form: undefined,
@@ -82,18 +82,11 @@ synthAngular.service('$uiManager', ['$apiManager', '$filter', '$collectionManage
                 finalParams.socket_service = service ? service : '';
 
 
-            if (!$formManager.submitState(finalParams.form))
-                return defer.reject('aucune modification apportée');
-
             $apiManager.save(finalQuery, model,
                     function (data) {
-                        $formManager.endSubmitState(finalParams.form);
-                        $formManager.resetFormError(finalParams.form);
                         $collectionManager.addItem(finalParams.collection, data);
 
-                        if (finalParams.show_form_message)
-                            $formManager.showMessage(finalParams.form, 'success');
-
+                     
                         if (finalParams.publish_to_socket)
                             $sockets.publish(finalParams.socket_service, finalParams.socket_operation || 'add', data);
 
@@ -101,12 +94,6 @@ synthAngular.service('$uiManager', ['$apiManager', '$filter', '$collectionManage
                     },
                     function (err) {
                         delete model._method;
-                        $formManager.endSubmitState(finalParams.form);
-                        $formManager.resetFormError(finalParams.form);
-                        $formManager.setFormErrors(finalParams.form, err);
-                        if (finalParams.show_form_message)
-                            $formManager.showMessage(finalParams.form, 'error');
-
                         defer.reject(err);
                     }
             );
@@ -124,20 +111,13 @@ synthAngular.service('$uiManager', ['$apiManager', '$filter', '$collectionManage
             if (!finalParams.socket_service)
                 finalParams.socket_service = service ? service : '';
 
-            if (!$formManager.submitState(finalParams.form))
-                return defer.reject('aucune modification apportée');
-
+            
             //synfony trick
             model._method = "put";
             $apiManager.update(finalQuery, model,
                     function (data) {
                         delete model._method;
-                        $formManager.endSubmitState(finalParams.form);
-                        $formManager.resetFormError(finalParams.form);
-
-                        if (finalParams.show_form_message)
-                            $formManager.showMessage(finalParams.form, 'success');
-
+                        
                         syTools.mergeResourceProperties(model, data);
 
                         if (finalParams.publish_to_socket)
@@ -147,12 +127,7 @@ synthAngular.service('$uiManager', ['$apiManager', '$filter', '$collectionManage
                     },
                     function (err) {
                         delete model._method;
-                        $formManager.endSubmitState(finalParams.form);
-                        $formManager.resetFormError(finalParams.form);
-                        $formManager.setFormErrors(finalParams.form, err);
-                        if (finalParams.show_form_message)
-                            $formManager.showMessage(finalParams.form, 'error');
-
+                        
                         defer.reject(err);
                     }
             );
@@ -348,171 +323,7 @@ synthAngular.service('$collectionManager', ['$filter', 'syTools', function ($fil
         };
     }]);
 
-synthAngular.service('$formManager', ['$alert', function ($alert) {
-        this.alert_options = {
-            error: {
-                title: 'Info',
-                content: 'Votre formulaire contient des erreurs',
-                type: 'danger',
-                duration: 5,
-                placement: undefined,
-                container: undefined,
-                show: true
-            },
-            success: {
-                title: 'Info',
-                content: 'Les modifications ont été enregistrées',
-                type: 'success',
-                duration: 5,
-                placement: undefined,
-                container: undefined,
-                show: true
-            }
-        };
-
-        this.submitState = function (form) {
-            if (!form)
-                return true;
-            if (form.$invalid || !form.$dirty)
-                return false;
-            var btn = $('form[name="' + form.$name + '"] [type="submit"][data-loading-text]');
-            btn.button('loading');
-            return true;
-        };
-
-        this.endSubmitState = function (form, errors) {
-            if (!form)
-                return;
-            var btn = $('form[name="' + form.$name + '"] [type="submit"][data-loading-text]');
-            btn.button('reset');
-
-            //if(!errors)
-            form.$setPristine();
-
-        };
-
-        this.setFormErrors = function (form, serverResponse) {
-            if (!angular.isDefined(form))
-                return;
-            var errors = compileErrors(serverResponse.data);
-            angular.forEach(errors, function (error, fieldName) {
-                if (angular.isDefined(form[fieldName]))
-                    form[fieldName].errors = error;
-            });
-        };
-
-        compileErrors = function (data) {
-            var errors = {};
-            angular.forEach(data, function (error, name) {
-                if (typeof (error) === 'string') {
-                    if (errors[name] == undefined)
-                        errors[name] = [error];
-                    else
-                        errors[name].push(error);
-                }
-                else if (typeof (error) === 'object') {
-                    var suberrors = compileErrors(error);
-                    angular.forEach(suberrors, function (suberror, subname) {
-                        if (errors[subname] == undefined)
-                            errors[subname] = [suberror];
-                        else
-                            errors[subname].push(suberror);
-                    });
-                }
-            });
-            return errors;
-        };
-
-        this.resetFormError = function (form) {
-            if (!angular.isDefined(form))
-                return;
-            for (var attrname in form)
-            {
-                if (attrname == 'errors' && Array.isArray(form.errors)) {
-                    form.errors = [];
-                    return;
-                }
-                else if (attrname.substr(0, 1) != '$' && typeof (form[attrname]) === 'object')
-                    this.resetFormError(form[attrname]);
-            }
-        }
-
-        this.showMessage = function (form, msg) {
-            if(form.$formOptions)
-                var options = angular.extend({}, this.alert_options[msg], form.$formOptions[msg]);
-            else
-                var options = angular.extend({}, this.alert_options[msg]);
-            if (options.container == undefined)
-                options.container = angular.element('form[name="' + form.$name + '"]');
-            $alert(options);
-        }
-
-    }]);
-
 synthAngular.factory('uploadFile', ['$upload', '$sockets', function ($upload, $sockets) {
         return $upload;
     }]);
 
-synthAngular.directive('formOptions', [function () {
-        return{
-            restrict: 'A',
-            require: ['form'],
-            scope: {
-                formOptions: "="
-            },
-            link: function (scope, element, attrs, ctrls) {
-                if (scope.formOptions == undefined)
-                    scope.formOptions = {};
-                ctrls[0].$formOptions = scope.formOptions;
-            }
-        };
-    }]);
-
-synthAngular.directive('formGroup', [function () {
-        return {
-            restrict: 'AE',
-            transclude: true,
-            scope: {
-                inputLabel: '@',
-                inputClass: '@',
-                labelClass: '@'
-            },
-            template: '<div class="form-group" ng-class="{\'has-error\' : hasError}"><label class="control-label" ng-class="labelClass" ng-bind-html="inputLabel"></label><div ng-class="inputClass" ng-transclude></div></div>',
-            controller: function ($scope) {
-                $scope.hasError = false;
-                this.setError = function (hasError) {
-                    $scope.hasError = hasError;
-                }
-            },
-            link: function (scope, element, attrs, ctrls) {
-                if (attrs.inputClass == undefined)
-                    attrs.inputClass = 'col-sm-9';
-                if (attrs.labelClass == undefined)
-                    attrs.labelClass = 'col-sm-3';
-            }
-
-        };
-    }]);
-
-synthAngular.directive('formInput', ['$compile', function ($compile) {
-        return {
-            restrict: 'A',
-            require: ['^form', '^form-group'],
-            link: function (scope, element, attrs, ctrls) {
-                scope.form = ctrls[0];
-                scope.group = ctrls[1];
-                var inputName = attrs.name;
-                scope.inputVar = scope.form[inputName];
-                var errblock = '<span class="help-block" ng-repeat="error in inputVar.errors" ng-bind="error"></span>';
-                element.after(errblock);
-                $compile(element.next())(scope);
-
-                scope.$watch('inputVar.errors', function (value) {
-                    if (value && value.length > 0)
-                        scope.group.setError(true);
-                    else
-                        scope.group.setError(false);
-                });
-            }
-        }
-    }]);
