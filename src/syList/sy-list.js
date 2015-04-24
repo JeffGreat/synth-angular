@@ -22,7 +22,7 @@ listDirective.directive('syList', ['$uiManager', 'dialogs', '$state', function($
                 customSearch: "=",
                 scrollAction: "@",
             },
-            templateUrl: '/syList/sy-list.tpl.html',
+            templateUrl: 'syList/sy-list.tpl.html',
             controller: function($scope) {
                 $scope.listElement;
                 $scope.elementToRemove = {};
@@ -69,24 +69,24 @@ listDirective.directive('syListCell', ['$compile', 'dialogs', '$uiManager', '$st
             restrict: 'A',
             require: ['^syList'],
             scope: {
-                girelleListCell: "=",
+                syListCell: "=",
             },
             link: function(scope, el, attrs) {
                 scope.item = scope.$parent.element;
 
-                if (!scope.girelleListCell.content && scope.girelleListCell.property != "actions")
-                    el.html(scope.item[scope.girelleListCell.property]);
-                else if (!scope.girelleListCell.content && scope.girelleListCell.property == "actions") {
+                if (!scope.syListCell.content && scope.syListCell.property != "actions")
+                    el.html(scope.item[scope.syListCell.property]);
+                else if (!scope.syListCell.content && scope.syListCell.property == "actions") {
                     scope.deleteUrl = scope.$parent.$parent.$parent.deleteUrl;
-                    var html = ('<div ng-include src="\'/syList/sy-list-actions-actions.tpl.html\'" ></div>');
+                    var html = ('<div ng-include src="\'syList/sy-list-actions-buttons.tpl.html\'" ></div>');
                     el.html($compile(html)(scope));
                 }
-                else if (typeof scope.girelleListCell.content == "string")
-                    el.html(scope.item[scope.girelleListCell.content]);
-                else if (typeof scope.girelleListCell.content == "function" && scope.girelleListCell.property == "actions")
-                    el.html(scope.girelleListCell.content(scope));
-                else if (typeof scope.girelleListCell.content == "function" && scope.girelleListCell.property != "actions")
-                    el.html(scope.girelleListCell.content(scope.item));
+                else if (typeof scope.syListCell.content == "string")
+                    el.html(scope.item[scope.syListCell.content]);
+                else if (typeof scope.syListCell.content == "function" && scope.syListCell.property == "actions")
+                    el.html(scope.syListCell.content(scope));
+                else if (typeof scope.syListCell.content == "function" && scope.syListCell.property != "actions")
+                    el.html(scope.syListCell.content(scope.item));
 
                 // end launch
             },
