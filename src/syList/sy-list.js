@@ -63,11 +63,11 @@ listDirective.directive('syList', ['$uiManager', 'dialogs', '$state', function($
         };
     }]);
 
-listDirective.directive('girelleListCell', ['$compile', 'dialogs', '$uiManager', '$state',
+listDirective.directive('syListCell', ['$compile', 'dialogs', '$uiManager', '$state',
     function($compile, $dialogs, $uiManager, $state) {
         return {
             restrict: 'A',
-            require: ['^girelleList'],
+            require: ['^syList'],
             scope: {
                 girelleListCell: "=",
             },
