@@ -1,4 +1,4 @@
-var synthAngular = angular.module('synthAngular', ['ngResource', 'angularFileUpload', 'mgcrea.ngStrap.modal', 'mgcrea.ngStrap.alert']);
+var synthAngular = angular.module('synthAngular', ['ngResource', 'angularFileUpload']);
 
 synthAngular.provider('$apiManager', function () {
     var baseApiUrl = 'api/rest/:service/:id/:sub_service/:sub_id';
