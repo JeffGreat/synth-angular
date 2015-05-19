@@ -116,9 +116,9 @@ angular.module('synthAngular.syForm').directive('syForm', ['$q', 'syFormDefaultV
                     container = angular.element(options.form_message_container);
                 var html = "";
                 if(type == "success" && options.form_message_success.enabled)
-                    html = '<br/><alert type="'+ type +'" close="close()" >' + options.form_message_success.message + '</alert>'
-                else if(&& options.form_message_error.enabled)
-                    html = '<br/><alert type="'+ type +'" close="close()" >' + options.form_message_error.message + '</alert>'
+                    html = '<br/><alert type="'+ type +'" close="close()" >' + options.form_message_success.message + '</alert>';
+                else if(options.form_message_error.enabled)
+                    html = '<br/><alert type="'+ type +'" close="close()" >' + options.form_message_error.message + '</alert>';
                 container.after($compile(html)(scope)); 
             };
 
