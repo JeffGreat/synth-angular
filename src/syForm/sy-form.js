@@ -10,6 +10,7 @@ angular.module('synthAngular.syForm', []).provider('syFormDefaultValue', functio
             message: "Your form contains errors",
         },
         form_message_success: {
+            enabled: false,
             message: "operation successful"
         },
         input_message: {
@@ -114,9 +115,9 @@ angular.module('synthAngular.syForm').directive('syForm', ['$q', 'syFormDefaultV
                 else
                     container = angular.element(options.form_message_container);
                 var html = "";
-                if(type == "success")
+                if(type == "success" && options.form_message_success.enabled)
                     html = '<br/><alert type="'+ type +'" close="close()" >' + options.form_message_success.message + '</alert>'
-                else
+                else if(&& options.form_message_error.enabled)
                     html = '<br/><alert type="'+ type +'" close="close()" >' + options.form_message_error.message + '</alert>'
                 container.after($compile(html)(scope)); 
             };
