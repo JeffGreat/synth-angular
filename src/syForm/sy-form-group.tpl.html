@@ -1,4 +1,4 @@
 <div class="form-group" ng-class="{'has-error' : hasError}">
-    <label class="control-label" ng-class="labelClass" ng-bind-html="inputLabel"></label>
+    <label ng-if="inputLabel" class="control-label" ng-class="labelClass" ng-bind-html="inputLabel"></label>
     <div ng-class="inputClass" ng-transclude></div>
 </div>
