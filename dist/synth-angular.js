@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v1.1.0 - 2015-05-19
+ * @version v2.0.0 - 2015-05-19
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
