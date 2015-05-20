@@ -18,11 +18,7 @@ listDirective.directive('syList', ['$state', function($state) {
         scope: {
             listElements: '=',
             title: '@',
-            titleElement: '=',
-            bindElement: '=',
-            nameElement: '@',
-            nameIdentifiant: '@',
-            options: "=options",
+            options: "=syListOptions",
             customSearch: "=",
             scrollAction: "@",
         },
