@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v2.0.0 - 2015-05-19
+ * @version v2.0.0 - 2015-05-20
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -231,66 +231,46 @@
       };
     }
   ]);
-  var listDirective = angular.module('listDirective', ['ngResource']);
+  var listDirective = angular.module('synthAngular.syList', [
+      'ngResource',
+      'ui.router',
+      'infinite-scroll'
+    ]);
   /*
- * 
+ *
  * Features: list entities, set list title, set columns to display, set action column with states, set column template, set scroll url
- * 
+ *
  */
   listDirective.directive('syList', [
-    '$uiManager',
-    'dialogs',
     '$state',
-    function ($uiManager, $dialogs, $state) {
+    function ($state) {
+      var defaultOptions = {
+          title: 'list',
+          fields: [],
+          actions: [],
+          headerActions: []
+        };
       return {
         restrict: 'AE',
         transclude: true,
         scope: {
-          listElement: '=',
+          listElements: '=',
           title: '@',
           titleElement: '=',
           bindElement: '=',
           nameElement: '@',
           nameIdentifiant: '@',
           options: '=options',
-          createState: '@',
-          updateState: '@',
-          deleteUrl: '@',
           customSearch: '=',
           scrollAction: '@'
         },
         templateUrl: 'syList/sy-list.tpl.html',
         controller: function ($scope) {
-          $scope.listElement;
-          $scope.elementToRemove = {};
-          $scope.confirmed = '';
-          if (!$scope.deleteUrl)
-            $scope.deleteUrl = '.delete({ id: item.id })';
-          $scope.setElementToRemove = function (element) {
-            $scope.elementToRemove = element;
-          };
-          $scope.deleteElement = function () {
-            $uiManager.deleteItem($scope.nameElement, { collection: $scope.listElement }, $scope.elementToRemove).then(function (data) {
-              $('#modalDelete').modal('close');
-            });
-          };
-          $scope.launch = function (which) {
-            var dlg = null;
-            switch (which) {
-            case 'create':
-              var stateCreate = $state.get($scope.createState);
-              var dlg = $dialogs.create(stateCreate.views['content@'].templateUrl, stateCreate.views['content@'].controller, {}, 'lg');
-              dlg.result.then(function (element) {
-                $scope.confirmed = 'L\'\xe9l\xe9ment a bien \xe9t\xe9 ajout\xe9';
-                $scope.listElement.push(element);
-                $('#alert-message').alert();
-                window.setTimeout(function () {
-                  $('#alert-message').alert('close');
-                }, 3000);
-              }, function () {
-              });
-              break;
-            }
+          $scope.options = angular.extend({}, defaultOptions, $scope.options);
+          $scope.listElements;
+          $scope.scroll = function () {
+            if ($scope.scrollAction)
+              $scope.$eval($scope.scrollAction);
           };
         }
       };
@@ -298,71 +278,30 @@
   ]);
   listDirective.directive('syListCell', [
     '$compile',
-    'dialogs',
-    '$uiManager',
     '$state',
-    function ($compile, $dialogs, $uiManager, $state) {
+    '$templateCache',
+    function ($compile, $state, $templateCache) {
       return {
         restrict: 'A',
         require: ['^syList'],
-        scope: { syListCell: '=' },
-        link: function (scope, el, attrs) {
-          scope.item = scope.$parent.element;
-          if (!scope.syListCell.content && scope.syListCell.property != 'actions')
-            el.html(scope.item[scope.syListCell.property]);
-          else if (!scope.syListCell.content && scope.syListCell.property == 'actions') {
-            scope.deleteUrl = scope.$parent.$parent.$parent.deleteUrl;
-            var html = '<div ng-include src="\'syList/sy-list-actions-buttons.tpl.html\'" ></div>';
+        scope: { cell: '=syListCell' },
+        link: function (scope, el, attrs, ctrl) {
+          scope.item = scope.$parent.item;
+          var propertyValue = scope.item[scope.cell.property];
+          if (scope.cell.template) {
+            var html = scope.cell.template;
             el.html($compile(html)(scope));
-          } else if (typeof scope.syListCell.content == 'string')
-            el.html(scope.item[scope.syListCell.content]);
-          else if (typeof scope.syListCell.content == 'function' && scope.syListCell.property == 'actions')
-            el.html(scope.syListCell.content(scope));
-          else if (typeof scope.syListCell.content == 'function' && scope.syListCell.property != 'actions')
-            el.html(scope.syListCell.content(scope.item));  // end launch
+          } else if (scope.cell.templateUrl) {
+            //var html = '<div ng-include="'+scope.cell.templateUrl+'"></div>';
+            var html = $templateCache.get(scope.cell.templateUrl);
+            el.html($compile(html)(scope));
+          } else if (propertyValue && scope.cell.url) {
+            var html = '<a ui-sref="' + scope.cell.url + '">' + propertyValue + '</a>';
+            el.html($compile(html)(scope));
+          } else if (propertyValue)
+            el.html(propertyValue);
         },
         controller: function ($scope) {
-          $scope.launch = function (which) {
-            var dlg = null;
-            switch (which) {
-            case 'confirm':
-              dlg = $dialogs.confirm('Demande de confirmation', 'Etes-vous s\xfbr de vouloir supprimer l\'\xe9l\xe9ment suivant: <h3>' + $scope.item[$scope.$parent.$parent.$parent.nameIdentifiant] + '</h3>');
-              dlg.result.then(function (btn) {
-                $scope.deleteElement($scope.item);
-                $scope.$parent.$parent.$parent.confirmed = 'L\'\xe9l\xe9ment a bien \xe9t\xe9 supprim\xe9';
-              }, function (btn) {
-                $scope.$parent.$parent.$parent.confirmed = 'La suppression a \xe9t\xe9 avort\xe9e';
-              });
-              break;
-            case 'edit':
-              var stateEdit = $state.get($scope.$parent.$parent.$parent.updateState);
-              var dlg = $dialogs.create(stateEdit.views['content@'].templateUrl, stateEdit.views['content@'].controller, $scope.item, 'lg');
-              dlg.result.then(function (element) {
-                //$scope.$parent.$parent.$parent.listElement.push(element);
-                var i = $scope.$parent.$parent.$parent.listElement.indexOf($scope.item);
-                if (i != -1) {
-                  $scope.$parent.$parent.$parent.listElement[i] = element.element;
-                }
-                $scope.$parent.$parent.$parent.confirmed = element.msg;
-                $('#alert-message').alert();
-                window.setTimeout(function () {
-                  $('#alert-message').alert('close');
-                }, 3000);  //dlg.close();
-              }, function () {
-              });
-              break;
-            }
-          };
-          $scope.deleteElement = function (el) {
-            if ($scope.$parent.$parent.$parent.customSearch)
-              $scope.$parent.$parent.$parent.customSearch.sub_id = el.id;
-            $uiManager.deleteItem($scope.$parent.$parent.$parent.nameElement, {
-              collection: $scope.$parent.$parent.$parent.listElement,
-              search: $scope.$parent.$parent.$parent.customSearch
-            }, el).then(function (data) {
-              $('#modalDelete').modal('close');
-            });
-          };
         }
       };
     }

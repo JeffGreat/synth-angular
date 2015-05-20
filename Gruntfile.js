@@ -58,11 +58,11 @@ module.exports = function(grunt) {
             },
             gruntfile: {
                 files: ['Gruntfile.js']
-            },
-            demo: {
+            }
+            /*demo: {
                 files: ['<%= yeoman.demo %>/*.html'],
                 tasks: ['processhtml']
-            }
+            }*/
             // livereload: {
             //     options: {
             //         livereload: '<%= connect.options.livereload %>'
@@ -246,13 +246,13 @@ module.exports = function(grunt) {
             }
         },
 
-        processhtml: {
+        /*processhtml: {
             dist: {
                 files: {
                     'dist/index.html': ['demo/index.html']
                 }
             }
-        },
+        },*/
 
     });
 
@@ -358,8 +358,8 @@ module.exports = function(grunt) {
         'clean:dist',
         'buildmodules',
         'buildtasks:tpls',
-        'buildtasks:dist',
-        'processhtml'
+        'buildtasks:dist'
+        //'processhtml'
     ]);
 
     grunt.registerTask('serve', function(target) {

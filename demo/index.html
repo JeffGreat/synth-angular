@@ -24,52 +24,28 @@
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="../bower_components/angular-resource/angular-resource.js"></script>
     <script src="../bower_components/ng-file-upload/angular-file-upload.js"></script>
     <script src="../bower_components/angular-strap/dist/angular-strap.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script type="text/javascript" src="synth-angular.js"></script>
-    <script type="text/javascript" src="synth-angular-tpls.js"></script>
-    <script type="text/javascript">
-        angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngular.syForm', 'synthAngular.syValidation', 'ui.bootstrap'])
-            .config(['$sceProvider', function($sceProvider) {
-                $sceProvider.enabled(false);
-            }])
-            .config(function(syEntitySchemaProvider) {
-                var userSchema = {
-                    name: {
-                        required: {},
-                        maxlength: {value: 5, error: 'too long'},
-                        minlength: {value: 2, error: 'too short!'}
-                    }
-                };
-                syEntitySchemaProvider.set("User", userSchema);
-            })
-            .controller('DemoCtrl', function($scope, $q) {
-                $scope.user = {};
-                $scope.users = [];
-
-                $scope.addUser = function() {
-                    //$scope.form1.name.$error.slug= "L'url de l'événement est déjà utilisée pour la date sélectionnée";
-                    /*$scope.users.push($scope.user);
-                    $scope.user = {};*/
-                    var defer = $q.defer();
-                    //defer.reject({"global":[],"fields":{"email":"L'url de l'\u00e9v\u00e9nement est d\u00e9j\u00e0 utilis\u00e9e pour la date s\u00e9lectionn\u00e9e"}});
-                    defer.resolve("Bien joué")
-                    return defer.promise;
-                };
-            });
-    </script>
-
+    <script src="../bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script type="text/javascript" src="../dist/synth-angular.js"></script>
+    <script type="text/javascript" src="../dist/synth-angular-tpls.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    
 </head>
 
-<body ng-app="demoApp" ng-controller="DemoCtrl">
+<body ng-app="demoApp" >
+    <script type="text/ng-template" id="columnTemplate.html">
+      <p>the item author is <b>"{{item.author}}"</b> and the column name is <b>"{{cell.libelle}}"</b></p>
+    </script>
     <div class="container">
-        <div class="row">
+        <div class="row" ng-controller="FormCtrl">
             <div class="col-md-12">
                 <h1>Synth angular library</h1>
 
-                <h2>Forms</h2> 
+                <h2>Forms</h2>
 
                 <form name="form1" sy-submit="addUser()" sy-form="{horizontal: true, inline: false, data_loading_text: 'Chargement...', form_message_error: {message: 'C\'est faux'}}" sy-validation-schema="User">
                     <sy-form-group input-label="Nom">
@@ -85,6 +61,16 @@
                     <label ng-bind="u.name"></label>
                     <label ng-bind="u.email"></label>
                 </div>
+            </div>
+        </div>
+        <div class="row" ng-controller="ListCtrl">
+            <div class="col-md-12" ui-view="editZone">
+            </div>
+            <div class="col-md-12">
+                <h2>Lists</h2>
+                <sy-list name-element="book" list-elements='books' options="listOptions" title="List of books" scroll-action='getScrollDosimetries' name-identifiant="adresse">
+
+                </sy-list>
             </div>
         </div>
     </div>
