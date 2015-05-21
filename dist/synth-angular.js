@@ -541,7 +541,7 @@
           $collectionManager.deleteItem(finalParams.collection, oldId);
           if (finalParams.publish_to_socket)
             $sockets.publish(finalParams.socket_service, finalParams.socket_operation || 'delete', oldId);
-          defer.resolve(data);
+          defer.resolve(oldId);
         }, function (err) {
           defer.reject(err);
         });
