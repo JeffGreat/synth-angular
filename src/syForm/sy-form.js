@@ -24,9 +24,15 @@ angular.module('synthAngular.syForm', []).provider('syFormDefaultValue', functio
         return default_options;
     }
     
+    this.set = function(options) {
+        default_options = angular.extend({}, default_options, options);
+        return default_options;
+    }
+    
     this.$get = function() {
         return {
-            get: this.get
+            get: this.get,
+            set: this.set
         }
     }
     
