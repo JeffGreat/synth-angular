@@ -57,11 +57,14 @@ listDirective.directive('syListCell', ['$compile', '$state', '$templateCache',
                     el.html($compile(html)(scope));
                 }
                 else if (propertyValue && scope.cell.url) {
-                    var html = '<a ui-sref="' + scope.cell.url + '">' + propertyValue + '</a>';
+                    var html = '<a ui-sref="' + scope.cell.url + '">{{item.' + scope.cell.property + '}}</a>';
                     el.html($compile(html)(scope));
                 }
-                else if (propertyValue)
-                    el.html(propertyValue);
+                else if (propertyValue) {
+                    var html = '<span>{{item.' + scope.cell.property + '}}</span>';
+                    el.html($compile(html)(scope));
+                    //el.html($compile('{{item.' + scope.cell.property + '}}')(scope));
+                }
             },
             controller: function($scope) {
 

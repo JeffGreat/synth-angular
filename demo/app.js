@@ -18,7 +18,7 @@ angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngul
                 views: {
                     'editZone@': {
                         template: "<div>book to edit: {{book}}</div>",
-                         controller: function($scope, $stateParams) {
+                        controller: function($scope, $stateParams) {
                             $scope.book = $stateParams.id;
                         }
                     }
@@ -52,7 +52,27 @@ angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngul
         };
         syEntitySchemaProvider.set("User", userSchema);
     })
-    .controller('FormCtrl', function($scope, $q) {
+    .config(function(syFormDefaultValueProvider) {
+        syFormDefaultValueProvider.set({
+            horizontal: true,
+            inline: false,
+            form_message_container: undefined,
+            form_message_error: {
+                enabled: false,
+                message: "Votre formulaire contient des erreurs",
+            },
+            form_message_success: {
+                enabled: false,
+                message: "Enregistrement effectué"
+            },
+            input_message: {
+                enabled: true,
+                error: "saisie incorrecte"
+            },
+            data_loading_text: 'enregistrement...'
+        });
+    })
+.controller('FormCtrl', function($scope, $q) {
         $scope.user = {};
         $scope.users = [];
 
