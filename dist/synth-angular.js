@@ -25,7 +25,8 @@
         input_message: {
           enabled: true,
           error: 'invalid input'
-        }
+        },
+        data_loading_text: 'saving...'
       };
     this.get = function () {
       return default_options;
@@ -67,7 +68,6 @@
         ],
         link: function (scope, element, attrs, ctrls) {
           var form = ctrls[0];
-          var default_options = { data_loading_text: 'loading...' };
           var options = angular.extend(syFormDefaultValue.get(), scope.syForm);
           function setButtonState(state) {
             var btn = $('[type=submit]', element);
