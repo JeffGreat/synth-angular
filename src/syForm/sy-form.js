@@ -17,6 +17,7 @@ angular.module('synthAngular.syForm', []).provider('syFormDefaultValue', functio
             enabled: true,
             error: "invalid input"
         },
+        data_loading_text: 'saving...'
 
     };
     
@@ -59,9 +60,6 @@ angular.module('synthAngular.syForm').directive('syForm', ['$q', 'syFormDefaultV
         },
         link: function(scope, element, attrs, ctrls) {
             var form = ctrls[0];
-            var default_options = {
-                data_loading_text: 'loading...'
-            };
             var options = angular.extend(syFormDefaultValue.get(), scope.syForm);
 
             function setButtonState(state) {
