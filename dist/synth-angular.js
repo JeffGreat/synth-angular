@@ -300,10 +300,10 @@
             var html = $templateCache.get(scope.cell.templateUrl);
             el.html($compile(html)(scope));
           } else if (propertyValue && scope.cell.url) {
-            var html = '<a ui-sref="' + scope.cell.url + '">{{item.' + scope.cell.property + '}}</a>';
+            var html = '<a ui-sref="' + scope.cell.url + '" ng-bind="item.' + scope.cell.property + '"></a>';
             el.html($compile(html)(scope));
           } else if (propertyValue) {
-            var html = '<span>{{item.' + scope.cell.property + '}}</span>';
+            var html = '<span ng-bind="item.' + scope.cell.property + '"></span>';
             el.html($compile(html)(scope));  //el.html($compile('{{item.' + scope.cell.property + '}}')(scope));
           }
         },
