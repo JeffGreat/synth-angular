@@ -80,17 +80,18 @@ angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngul
             title: 'My list',
             fields: [{
                 property: 'title',
-                libelle: 'Title',
-                url: 'editItem({id: item.title})'
+                title: 'Title',
+                url: 'editItem({id: item.title})',
+                class: 'title-class'
             }, {
                 property: 'author',
-                libelle: 'Author'
+                title: 'Author'
             }, {
                 template: '<p>available scope : <pre>"cell" => cell definition defined by user</pre><pre>"item" => item from the collection</pre></p>',
-                libelle: 'column with template'
+                title: 'column with template'
             }, {
                 templateUrl: 'columnTemplate.html',
-                libelle: 'column with template url'
+                title: 'column with template url'
             }],
             actionColumn: [{
                 icon: 'pencil',
@@ -99,9 +100,10 @@ angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngul
                 icon: 'times',
                 url: 'removeItem({id: item.title})'
             }],
+            headerActionsTitle: 'actions',
             headerActions: [{
                 url: 'addItem',
-                libelle: ' add',
+                title: ' add',
                 icon: 'plus'
             }]
         };

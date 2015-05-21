@@ -38,8 +38,11 @@
 
 <body ng-app="demoApp" >
     <script type="text/ng-template" id="columnTemplate.html">
-      <p>the item author is <b>"{{item.author}}"</b> and the column name is <b>"{{cell.libelle}}"</b></p>
+      <p>the item author is <b>"{{item.author}}"</b> and the column name is <b>"{{cell.title}}"</b></p>
     </script>
+    <style>
+        .title-class a{font-size:1.2em;}
+    </style>
     <div class="container">
         <div class="row" ng-controller="FormCtrl">
             <div class="col-md-12">

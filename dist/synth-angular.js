@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v2.0.0 - 2015-05-20
+ * @version v2.0.0 - 2015-05-21
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -248,6 +248,7 @@
           title: 'list',
           fields: [],
           actions: [],
+          headerActionsTitle: 'actions',
           headerActions: []
         };
       return {

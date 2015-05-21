@@ -9,6 +9,7 @@ listDirective.directive('syList', ['$state', function($state) {
         title: 'list',
         fields: [],
         actions: [],
+        headerActionsTitle: 'actions',
         headerActions: []
     };
 

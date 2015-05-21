@@ -6,9 +6,9 @@
                     <h5>{{ options.title }}</h5>
                     <div class="ibox-tools">
                         <a ng-repeat="action in options.headerActions" class="collapse-link" ui-sref="{{action.url}}">
-                            <i class="fa fa-{{action.icon}}" ></i>{{action.libelle}}
+                            <i class="fa fa-{{action.icon}}" ></i>{{action.title}}
                         </a>
-                    </div>
+                    </div> 
                 </div>
                 
                 <div class="ibox-content table-responsive" infinite-scroll='scroll()' infinite-scroll-distance="0" ng-if="listElements.length > 0">
@@ -16,17 +16,20 @@
                         <thead>
                             <tr role="row" >
                                 <th ng-repeat="field in options.fields" class="sorting_asc"  rowspan="1" colspan="1">
-                                    {{ field.libelle }}
+                                    {{ field.title }}
+                                </th>
+                                <th ng-if="options.headerActionsTitle && options.headerActions.length > 0">
+                                    {{ options.headerActionsTitle }}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in listElements" role="row">
-                                <td ng-repeat="field in options.fields" sy-list-cell="field">
+                                <td ng-repeat="field in options.fields" sy-list-cell="field" ng-class="field.class">
                                     
                                 </td>
-                                <td ng-repeat="field in options.actionColumn" >
-                                    <a ui-sref="{{field.url}}"><i class="fa fa-{{field.icon}}"></i></a>
+                                <td ng-if="options.headerActions.length > 0" class="text-right">
+                                    <span ng-repeat="field in options.actionColumn" ><a ui-sref="{{field.url}}"><i class="fa fa-{{field.icon}}"></i></a>&nbsp;</span>
                                 </td>
                             </tr>
                         </tbody>
