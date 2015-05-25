@@ -96,6 +96,11 @@ angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngul
             title: "Le Compte de Monte Cristo",
             author: "Dumas"
         }];
+        
+        $scope.getContent = function(item){
+            return item.author.toUpperCase();
+        };
+        
         $scope.listOptions = {
             title: 'My list',
             fields: [{
@@ -112,6 +117,13 @@ angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngul
             }, {
                 templateUrl: 'columnTemplate.html',
                 title: 'column with template url'
+            }, {
+                expression: $scope.getContent,
+                title: 'column with content function'
+            }, {
+                expression: $scope.getContent,
+                title: 'column with content function wrapped in a link',
+                url: 'editItem({id: item.title})'
             }],
             actionColumn: [{
                 icon: 'pencil',

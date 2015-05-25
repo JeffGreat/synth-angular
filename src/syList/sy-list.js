@@ -39,14 +39,16 @@ listDirective.directive('syListCell', ['$compile', '$state', '$templateCache',
     function($compile, $state, $templateCache) {
         return {
             restrict: 'A',
-            require: ['^syList'],
+            require: '^syList',
             scope: {
                 cell: "=syListCell",
             },
             link: function(scope, el, attrs, ctrl) {
                 scope.item = scope.$parent.item;
                 var propertyValue = scope.item[scope.cell.property];
-
+                
+                
+                //template
                 if (scope.cell.template) {
                     var html = scope.cell.template;
                     el.html($compile(html)(scope));
@@ -56,6 +58,16 @@ listDirective.directive('syListCell', ['$compile', '$state', '$templateCache',
                     var html = $templateCache.get(scope.cell.templateUrl);
                     el.html($compile(html)(scope));
                 }
+                //type expression function
+                else if (scope.cell.expression && typeof scope.cell.expression == 'function' && scope.cell.url) {
+                    var html = '<a ui-sref="' + scope.cell.url + '" >'+scope.cell.expression(scope.item)+'</a>';
+                    el.html($compile(html)(scope));
+                }
+                else if (scope.cell.expression && typeof scope.cell.expression == 'function') {
+                    var html = '<span>'+scope.cell.expression(scope.item) +'</span>';
+                    el.html(html);
+                }
+                //regular property
                 else if (propertyValue && scope.cell.url) {
                     var html = '<a ui-sref="' + scope.cell.url + '" ng-bind="item.'+scope.cell.property+'"></a>';
                     el.html($compile(html)(scope));
@@ -63,7 +75,6 @@ listDirective.directive('syListCell', ['$compile', '$state', '$templateCache',
                 else if (propertyValue) {
                     var html = '<span ng-bind="item.'+scope.cell.property+'"></span>';
                     el.html($compile(html)(scope));
-                    //el.html($compile('{{item.' + scope.cell.property + '}}')(scope));
                 }
             },
             controller: function($scope) {
