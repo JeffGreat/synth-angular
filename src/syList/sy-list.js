@@ -8,8 +8,8 @@ listDirective.directive('syList', ['$state', function($state) {
     var defaultOptions = {
         title: 'list',
         fields: [],
-        actions: [],
-        headerActionsTitle: 'actions',
+        actionColumn: [],
+        actionColumnTitle: 'actions',
         headerActions: []
     };
 

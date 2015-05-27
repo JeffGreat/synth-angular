@@ -18,8 +18,8 @@
                                 <th ng-repeat="field in options.fields" class="sorting_asc"  rowspan="1" colspan="1">
                                     {{ field.title }}
                                 </th>
-                                <th ng-if="options.headerActionsTitle && options.actionColumn.length > 0" class="text-right">
-                                    {{ options.headerActionsTitle }}
+                                <th ng-if="options.actionColumn.length > 0" class="text-right">
+                                    {{ options.actionColumnTitle }}
                                 </th>
                             </tr>
                         </thead>

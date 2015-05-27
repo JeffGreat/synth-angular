@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v2.0.0 - 2015-05-25
+ * @version v2.0.0 - 2015-05-27
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -254,8 +254,8 @@
       var defaultOptions = {
           title: 'list',
           fields: [],
-          actions: [],
-          headerActionsTitle: 'actions',
+          actionColumn: [],
+          actionColumnTitle: 'actions',
           headerActions: []
         };
       return {
@@ -434,7 +434,7 @@
         id: '@id',
         service: '@service',
         sub_id: '@sub_id',
-        sub_service: '@service'
+        sub_service: '@sub_service'
       };
     this.setApiParams = function (value) {
       apiParams = value;

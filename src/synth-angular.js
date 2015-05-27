@@ -6,7 +6,7 @@ synthAngular.provider('$apiManager', function () {
         id: '@id',
         service: '@service',
         sub_id: '@sub_id',
-        sub_service: '@service'
+        sub_service: '@sub_service'
     };
 
     this.setApiParams = function (value) {

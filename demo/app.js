@@ -132,7 +132,7 @@ angular.module('demoApp', ['synthAngular', 'synthAngular.templates', 'synthAngul
                 icon: 'times',
                 url: 'removeItem({id: item.title})'
             }],
-            headerActionsTitle: 'actions',
+            actionColumnTitle: 'actions',
             headerActions: [{
                 url: 'addItem',
                 title: ' add',
