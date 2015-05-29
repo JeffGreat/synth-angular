@@ -77,6 +77,7 @@ angular.module('synthAngular.syForm').directive('syForm', ['$q', 'syFormDefaultV
 
             scope.resetFormError = function() {
                 form.$error = {};
+                scope.$broadcast('resetFormErrors', form);
             }
 
             scope.setServerErrors = function(serverResponse) {
@@ -136,7 +137,7 @@ angular.module('synthAngular.syForm').directive('syForm', ['$q', 'syFormDefaultV
                             scope.showFormMessage('success');
                         }, function(data) {
                             scope.resetFormError();
-                            scope.setServerErrors(data);
+                            scope.setServerErrors(data.data);
                             scope.showFormMessage('danger');
                         }).finally(function(data) {
                             setButtonState(false);
@@ -238,6 +239,9 @@ angular.module('synthAngular.syForm').directive('syFormInput', ['$compile', func
                     scope.syformGroup.setError(false);
             }, true);
 
+            scope.$on('resetFormErrors', function(event, form){
+                inputVar.$error = {};
+            });
 
 
         }

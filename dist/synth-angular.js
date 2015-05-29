@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v2.0.0 - 2015-05-27
+ * @version v2.0.0 - 2015-05-29
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -83,6 +83,7 @@
           }
           scope.resetFormError = function () {
             form.$error = {};
+            scope.$broadcast('resetFormErrors', form);
           };
           scope.setServerErrors = function (serverResponse) {
             var form_errors = scope.compileErrors(serverResponse);
@@ -136,7 +137,7 @@
                   scope.showFormMessage('success');
                 }, function (data) {
                   scope.resetFormError();
-                  scope.setServerErrors(data);
+                  scope.setServerErrors(data.data);
                   scope.showFormMessage('danger');
                 }).finally(function (data) {
                   setButtonState(false);  //form.$setPristine();
@@ -234,6 +235,9 @@
             else
               scope.syformGroup.setError(false);
           }, true);
+          scope.$on('resetFormErrors', function (event, form) {
+            inputVar.$error = {};
+          });
         }
       };
     }
