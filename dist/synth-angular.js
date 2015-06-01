@@ -263,7 +263,8 @@
           fields: [],
           actionColumn: [],
           actionColumnTitle: 'actions',
-          headerActions: []
+          headerActions: [],
+          order: 'id'
         };
       return {
         restrict: 'AE',

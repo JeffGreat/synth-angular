@@ -10,7 +10,8 @@ listDirective.directive('syList', ['$state', function($state) {
         fields: [],
         actionColumn: [],
         actionColumnTitle: 'actions',
-        headerActions: []
+        headerActions: [],
+        order: 'id'
     };
 
     return {
