@@ -272,6 +272,7 @@
         scope: {
           listElements: '=',
           title: '@',
+          order: '=',
           options: '=syListOptions',
           customSearch: '=',
           scrollAction: '='

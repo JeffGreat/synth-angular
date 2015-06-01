@@ -20,6 +20,7 @@ listDirective.directive('syList', ['$state', function($state) {
         scope: {
             listElements: '=',
             title: '@',
+            order: '=',
             options: "=syListOptions",
             customSearch: "=",
             scrollAction: "=",
