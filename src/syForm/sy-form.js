@@ -137,7 +137,7 @@ angular.module('synthAngular.syForm').directive('syForm', ['$q', 'syFormDefaultV
                             scope.showFormMessage('success');
                         }, function(data) {
                             scope.resetFormError();
-                            scope.setServerErrors(data.data);
+                            scope.setServerErrors(data);
                             scope.showFormMessage('danger');
                         }).finally(function(data) {
                             setButtonState(false);

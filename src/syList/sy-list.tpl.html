@@ -29,7 +29,7 @@
                                     
                                 </td>
                                 <td ng-if="options.actionColumn.length > 0" class="text-right">
-                                    <span ng-repeat="field in options.actionColumn" ><a ui-sref="{{field.url}}"><i class="fa fa-{{field.icon}}"></i></a>&nbsp;</span>
+                                    <span ng-repeat="field in options.actionColumn" sy-list-cell="field"><a ui-sref="{{field.url}}"><i class="fa fa-{{field.icon}}"></i></a>&nbsp;</span>
                                 </td>
                             </tr>
                         </tbody>

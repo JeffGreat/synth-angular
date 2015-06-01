@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v2.0.0 - 2015-05-29
+ * @version v2.0.0 - 2015-06-01
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -137,7 +137,7 @@
                   scope.showFormMessage('success');
                 }, function (data) {
                   scope.resetFormError();
-                  scope.setServerErrors(data.data);
+                  scope.setServerErrors(data);
                   scope.showFormMessage('danger');
                 }).finally(function (data) {
                   setButtonState(false);  //form.$setPristine();
