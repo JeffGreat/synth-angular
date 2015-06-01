@@ -273,7 +273,7 @@
           title: '@',
           options: '=syListOptions',
           customSearch: '=',
-          scrollAction: '@'
+          scrollAction: '='
         },
         templateUrl: 'syList/sy-list.tpl.html',
         controller: function ($scope) {

@@ -21,7 +21,7 @@ listDirective.directive('syList', ['$state', function($state) {
             title: '@',
             options: "=syListOptions",
             customSearch: "=",
-            scrollAction: "@",
+            scrollAction: "=",
         },
         templateUrl: 'syList/sy-list.tpl.html',
         controller: function($scope) {
