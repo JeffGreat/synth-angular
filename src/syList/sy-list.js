@@ -10,8 +10,7 @@ listDirective.directive('syList', ['$state', function($state) {
         fields: [],
         actionColumn: [],
         actionColumnTitle: 'actions',
-        headerActions: [],
-        order: 'id'
+        headerActions: []
     };
 
     return {
@@ -20,7 +19,6 @@ listDirective.directive('syList', ['$state', function($state) {
         scope: {
             listElements: '=',
             title: '@',
-            order: '=',
             options: "=syListOptions",
             customSearch: "=",
             scrollAction: "=",

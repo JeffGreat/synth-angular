@@ -263,8 +263,7 @@
           fields: [],
           actionColumn: [],
           actionColumnTitle: 'actions',
-          headerActions: [],
-          order: 'id'
+          headerActions: []
         };
       return {
         restrict: 'AE',
@@ -272,7 +271,6 @@
         scope: {
           listElements: '=',
           title: '@',
-          order: '=',
           options: '=syListOptions',
           customSearch: '=',
           scrollAction: '='
