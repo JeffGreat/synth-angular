@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v2.0.0 - 2015-06-01
+ * @version v2.0.0 - 2015-06-17
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -431,10 +431,7 @@
       };
     }
   ]);
-  var synthAngular = angular.module('synthAngular', [
-      'ngResource',
-      'angularFileUpload'
-    ]);
+  var synthAngular = angular.module('synthAngular', ['ngResource']);
   synthAngular.provider('$apiManager', function () {
     var baseApiUrl = 'api/rest/:service/:id/:sub_service/:sub_id';
     var apiParams = {
@@ -700,13 +697,6 @@
           return true;
         return false;
       };
-    }
-  ]);
-  synthAngular.factory('uploadFile', [
-    '$upload',
-    '$sockets',
-    function ($upload, $sockets) {
-      return $upload;
     }
   ]);
 }(window, document));

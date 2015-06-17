@@ -1,4 +1,4 @@
-var synthAngular = angular.module('synthAngular', ['ngResource', 'angularFileUpload']);
+var synthAngular = angular.module('synthAngular', ['ngResource']);
 
 synthAngular.provider('$apiManager', function () {
     var baseApiUrl = 'api/rest/:service/:id/:sub_service/:sub_id';
@@ -323,7 +323,5 @@ synthAngular.service('$collectionManager', ['$filter', 'syTools', function ($fil
         };
     }]);
 
-synthAngular.factory('uploadFile', ['$upload', '$sockets', function ($upload, $sockets) {
-        return $upload;
-    }]);
+
 
