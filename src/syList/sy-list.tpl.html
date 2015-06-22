@@ -5,9 +5,11 @@
                 <div class="ibox-title">
                     <h5>{{ options.title }}</h5>
                     <div class="ibox-tools">
-                        <a ng-repeat="action in options.headerActions" class="collapse-link" ui-sref="{{action.url}}">
-                            <i class="fa fa-{{action.icon}}" ></i>{{action.title}}
-                        </a>
+                        <span ng-repeat="action in options.headerActions" class="{{options.headerClass}}">
+                            <a class="collapse-link" ui-sref="{{action.url}}">
+                                <i class="fa fa-{{action.icon}}" ></i>{{action.title}}
+                            </a>
+                        </span>
                     </div> 
                 </div>
                 

@@ -1,6 +1,6 @@
 /**
  * Angular tools made by Apsynth
- * @version v2.0.0 - 2015-06-17
+ * @version v2.0.0 - 2015-06-22
  * @link https://github.com/JeffGreat/synth-angular
  * @author 
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -263,7 +263,8 @@
           fields: [],
           actionColumn: [],
           actionColumnTitle: 'actions',
-          headerActions: []
+          headerActions: [],
+          headerClass: ''
         };
       return {
         restrict: 'AE',
