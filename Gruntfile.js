@@ -34,13 +34,7 @@ module.exports = function(grunt) {
                 ' */\n\n'
         },
 
-        // Install package delta for execute demo
-        delta: {
-            docs: {
-                files: ['misc/demo/index.html'],
-                tasks: ['demo']
-            },
-        },
+       
         copy: {
             demohtml: {
                 options: {
