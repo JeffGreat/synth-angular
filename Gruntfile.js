@@ -1,5 +1,7 @@
 'use strict';
 
+var markdown = require('node-markdown').Markdown;
+
 module.exports = function(grunt) {
 
     // Load grunt tasks automatically
@@ -18,6 +20,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         modules: [], //to be filled in by buildmodules task
         moduleprefix: '<%= pkg.name %>.',
+        filenamecustom: '<%= filename %>-custom',
         meta: {
             modules: 'angular.module("<%= pkg.name %>", [<%= srcModules %>]);',
             tplmodules: 'angular.module("<%= pkg.name %>.tpls", [<%= tplModules %>]);',
@@ -31,6 +34,27 @@ module.exports = function(grunt) {
                 ' */\n\n'
         },
 
+        // Install package delta for execute demo
+        delta: {
+            docs: {
+                files: ['misc/demo/index.html'],
+                tasks: ['demo']
+            },
+        },
+        copy: {
+            demohtml: {
+                options: {
+//                  //process html files with gruntfile config
+                  processContent: grunt.template.process
+               },
+                files: [{
+                  expand: true,
+                  cwd: 'misc/demo/',
+                  src: ['**/*.html'],
+                  dest: 'demo/'
+                }]
+              },
+         },
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             js: {
@@ -279,7 +303,15 @@ module.exports = function(grunt) {
             srcFiles: grunt.file.expand(['src/' + name + '/*.js', '!src/' + name + '/*.spec.js']),
             tplFiles: grunt.file.expand('src/' + name + '/*.tpl.html'),
             tplModules: grunt.file.expand('src/' + name + '/*.tpl.html').map(removeroot).map(enquote),
-            dependencies: dependenciesForModule(name)
+            dependencies: dependenciesForModule(name),
+            docs: {
+                md: grunt.file.expand('src/'+name+'/docs/*.md')
+                  .map(grunt.file.read).map(markdown).join('\n'),
+                js: grunt.file.expand('src/'+name+'/docs/*.js')
+                  .map(grunt.file.read).join('\n'),
+                html: grunt.file.expand('src/'+name+'/docs/*.html')
+                  .map(grunt.file.read).join('\n')
+              }
         };
         module.dependencies.forEach(findModule);
         grunt.config('modules', grunt.config('modules').concat(module));
@@ -310,9 +342,28 @@ module.exports = function(grunt) {
         return deps;
     }
 
+    grunt.registerTask('demo', ['buildmodules', 'copy']);
+    
+    
+    
+
+
     grunt.registerTask('buildmodules', function() {
         var _ = grunt.util._;
-
+        
+         //If arguments define what modules to build, build those. Else, everything
+            if (this.args.length) {
+              this.args.forEach(findModule);
+              grunt.config('filename', grunt.config('filenamecustom'));
+            } else {
+              grunt.file.expand({
+                filter: 'isDirectory', cwd: '.'
+              }, 'src/*').forEach(function(dir) {
+               
+                findModule(dir.split('/')[1]);
+              });
+            }
+            
         //Build all modules
         grunt.file.expand({
             filter: 'isDirectory',
@@ -322,10 +373,32 @@ module.exports = function(grunt) {
         });
 
         var modules = grunt.config('modules');
+   
+
         grunt.config('srcModules', _.pluck(modules, 'moduleName'));
-        grunt.config('tplModules', _.pluck(modules, 'tplModules').filter(function(tpls) {
-            return tpls.length > 0;
-        }));
+        grunt.config('tplModules', _.pluck(modules, 'tplModules').filter(function(tpls) {return tpls.length > 0;}));
+        grunt.config('demoModules', modules
+            .filter(function(module) { 
+                grunt.log.writeln(module.docs.md);
+                //return module.srcFiles;
+                return module.docs.md && module.docs.js && module.docs.html;
+            })
+            .sort(function(a, b) {
+                if (a.name < b.name) { return -1; }
+                if (a.name > b.name) { return 1; }
+                return 0;
+             })
+       );
+        
+        var moduleFileMapping = _.clone(modules, true);
+        moduleFileMapping.forEach(function (module) {
+            delete module.docs;
+        });
+        grunt.config('moduleFileMapping', moduleFileMapping);
+    
+        grunt.task.run(['concat']);
+
+
     });
 
     grunt.registerMultiTask('buildtasks', 'Run task only if source files exists', function() {
@@ -358,7 +431,7 @@ module.exports = function(grunt) {
         'clean:dist',
         'buildmodules',
         'buildtasks:tpls',
-        'buildtasks:dist'
+        'buildtasks:dist',
         //'processhtml'
     ]);
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Easy to use, small, and customizable. Try it out for yourself!">
+    <meta property="og:title" content="Synth Angular" />
+    <meta property="og:description" content="Synth angular library" />
+
+    <title>Synth angular library tour</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/js/rainbow.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/js/language/html.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/themes/github.css" rel='stylesheet' type='text/css'>
+
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script src="../bower_components/ng-file-upload/angular-file-upload.js"></script>
+    <script src="../bower_components/angular-strap/dist/angular-strap.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="../bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script type="text/javascript" src="../dist/synth-angular.js"></script>
+    <script type="text/javascript" src="../dist/synth-angular-tpls.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    
+</head>
+
+<body ng-app="demoApp" >
+    <script type="text/ng-template" id="columnTemplate.html">
+      <p>the item author is <b>"{{item.author}}"</b> and the column name is <b>"{{cell.title}}"</b></p>
+    </script>
+    <style>
+        .title-class a{font-size:1.2em;}
+    </style>
+    <div class="container">
+        <div class="row" >
+            <% demoModules.forEach(function(module) { %>
+                <section id="<%= module.name %>">
+                    <div class="page-header">
+                      <h1><small>
+                          <%= module.name %>
+                      </small></h1>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 show-grid">
+                            <%= module.docs.html %>
+                        </div>
+                       <!-- <div class="col-md-12">
+                            <%= module.docs.md %>
+                        </div>-->
+                    </div>
+                    <hr>
+                    <div class="row code">
+                        <div class="col-md-12" >
+                            <!--<div class="pull-right">
+                                <button class="btn btn-info"><i class="glyphicon glyphicon-edit"></i> Edit in plunker</button>
+                            </div>-->
+                            <tabset>
+                                <tab heading="HTML">
+                                    <div plunker-content="html">
+                                        <pre ng-non-bindable><code data-language="javascript"><%- module.docs.html %></code></pre>
+                                    </div>
+                                </tab>
+                                <tab heading="JavaScript">
+                                    <div plunker-content="javascript">
+                                        <pre ng-non-bindable><code data-language="javascript"><%- module.docs.js %></code></pre>
+                                    </div>
+                                </tab>
+                            </tabset>
+                        </div>
+                    </div>
+                </section>
+        <% }); %>
+        </div>
+    </div>
+</body>
+
+</html>

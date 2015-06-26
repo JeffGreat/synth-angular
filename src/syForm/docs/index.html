@@ -1,0 +1,10 @@
+<form name="form1" sy-submit="addUser()" sy-form="{horizontal: true, inline: false, data_loading_text: 'Chargement...', form_message_error: {message: 'C\'est faux'}}" sy-validation-schema="User">
+    <sy-form-group input-label="Nom">
+        <input sy-form-input name="name" type="text" ng-model="user.name" />
+    </sy-form-group>
+    <sy-form-group input-label="Email">
+        <input sy-form-input name="email" type="email" ng-model="user.email" />
+    </sy-form-group>
+    <button type="submit" class="btn">Add</button>
+</form>
+  

@@ -44,37 +44,182 @@
         .title-class a{font-size:1.2em;}
     </style>
     <div class="container">
-        <div class="row" ng-controller="FormCtrl">
-            <div class="col-md-12">
-                <h1>Synth angular library</h1>
+        <div class="row" >
+            
+                <section id="syForm">
+                    <div class="page-header">
+                      <h1><small>
+                          syForm
+                      </small></h1>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 show-grid">
+                            <form name="form1" sy-submit="addUser()" sy-form="{horizontal: true, inline: false, data_loading_text: 'Chargement...', form_message_error: {message: 'C\'est faux'}}" sy-validation-schema="User">
+    <sy-form-group input-label="Nom">
+        <input sy-form-input name="name" type="text" ng-model="user.name" />
+    </sy-form-group>
+    <sy-form-group input-label="Email">
+        <input sy-form-input name="email" type="email" ng-model="user.email" />
+    </sy-form-group>
+    <button type="submit" class="btn">Add</button>
+</form>
+  
+                        </div>
+                       <!-- <div class="col-md-12">
+                            <p>SyForm is an Synth-Angular-version.</p>
+                        </div>-->
+                    </div>
+                    <hr>
+                    <div class="row code">
+                        <div class="col-md-12" >
+                            <!--<div class="pull-right">
+                                <button class="btn btn-info"><i class="glyphicon glyphicon-edit"></i> Edit in plunker</button>
+                            </div>-->
+                            <tabset>
+                                <tab heading="HTML">
+                                    <div plunker-content="html">
+                                        <pre ng-non-bindable><code data-language="javascript">&lt;form name=&quot;form1&quot; sy-submit=&quot;addUser()&quot; sy-form=&quot;{horizontal: true, inline: false, data_loading_text: &#x27;Chargement...&#x27;, form_message_error: {message: &#x27;C\&#x27;est faux&#x27;}}&quot; sy-validation-schema=&quot;User&quot;&gt;
+    &lt;sy-form-group input-label=&quot;Nom&quot;&gt;
+        &lt;input sy-form-input name=&quot;name&quot; type=&quot;text&quot; ng-model=&quot;user.name&quot; /&gt;
+    &lt;/sy-form-group&gt;
+    &lt;sy-form-group input-label=&quot;Email&quot;&gt;
+        &lt;input sy-form-input name=&quot;email&quot; type=&quot;email&quot; ng-model=&quot;user.email&quot; /&gt;
+    &lt;/sy-form-group&gt;
+    &lt;button type=&quot;submit&quot; class=&quot;btn&quot;&gt;Add&lt;/button&gt;
+&lt;/form&gt;
+  </code></pre>
+                                    </div>
+                                </tab>
+                                <tab heading="JavaScript">
+                                    <div plunker-content="javascript">
+                                        <pre ng-non-bindable><code data-language="javascript">angular.module(&#x27;demoApp&#x27;, [&#x27;synthAngular&#x27;, &#x27;synthAngular.templates&#x27;, &#x27;synthAngular.syForm&#x27;, &#x27;synthAngular.syValidation&#x27;, &#x27;synthAngular.syList&#x27;, &#x27;ui.bootstrap&#x27;]).controller(&#x27;FormCtrl&#x27;, function($scope, $q) {
+    $scope.user = {};
+    $scope.users = [];
 
-                <h2>Forms</h2>
+    $scope.addUser = function() {
+        //$scope.form1.name.$error.slug= &quot;L&#x27;url de l&#x27;événement est déjà utilisée pour la date sélectionnée&quot;;
+        /*$scope.users.push($scope.user);
+        $scope.user = {};*/
+        var defer = $q.defer();
+        //defer.reject({&quot;global&quot;:[],&quot;fields&quot;:{&quot;email&quot;:&quot;L&#x27;url de l&#x27;\u00e9v\u00e9nement est d\u00e9j\u00e0 utilis\u00e9e pour la date s\u00e9lectionn\u00e9e&quot;}});
+        defer.resolve(&quot;Bien joué&quot;)
+        return defer.promise;
+    };
+});
+    </code></pre>
+                                    </div>
+                                </tab>
+                            </tabset>
+                        </div>
+                    </div>
+                </section>
+        
+                <section id="syList">
+                    <div class="page-header">
+                      <h1><small>
+                          syList
+                      </small></h1>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 show-grid">
+                            <div class="row" ng-controller="ListCtrl">
+    <div class="col-md-12" ui-view="editZone">
+    </div>
+    <div class="col-md-12">
+        <h2>Lists</h2>
+        <sy-list list-elements='books' sy-list-options="listOptions" >
 
-                <form name="form1" sy-submit="addUser()" sy-form="{horizontal: true, inline: false, data_loading_text: 'Chargement...', form_message_error: {message: 'C\'est faux'}}" sy-validation-schema="User">
-                    <sy-form-group input-label="Nom">
-                        <input sy-form-input name="name" type="text" ng-model="user.name" />
-                    </sy-form-group>
-                    <sy-form-group input-label="Email">
-                        <input sy-form-input name="email" type="email" ng-model="user.email" />
-                    </sy-form-group>
-                    <button type="submit" class="btn">Add</button>
-                </form>
-                <hr/>
-                <div ng-repeat="u in users">
-                    <label ng-bind="u.name"></label>
-                    <label ng-bind="u.email"></label>
-                </div>
-            </div>
-        </div>
-        <div class="row" ng-controller="ListCtrl">
-            <div class="col-md-12" ui-view="editZone">
-            </div>
-            <div class="col-md-12">
-                <h2>Lists</h2>
-                <sy-list list-elements='books' sy-list-options="listOptions"  scroll-action='getScrollDosimetries' >
+        </sy-list>
+    </div>
+</div>
+                        </div>
+                       <!-- <div class="col-md-12">
+                            <p>SyLyst is an Synth-Angular-version.</p>
+                        </div>-->
+                    </div>
+                    <hr>
+                    <div class="row code">
+                        <div class="col-md-12" >
+                            <!--<div class="pull-right">
+                                <button class="btn btn-info"><i class="glyphicon glyphicon-edit"></i> Edit in plunker</button>
+                            </div>-->
+                            <tabset>
+                                <tab heading="HTML">
+                                    <div plunker-content="html">
+                                        <pre ng-non-bindable><code data-language="javascript">&lt;div class=&quot;row&quot; ng-controller=&quot;ListCtrl&quot;&gt;
+    &lt;div class=&quot;col-md-12&quot; ui-view=&quot;editZone&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-12&quot;&gt;
+        &lt;h2&gt;Lists&lt;/h2&gt;
+        &lt;sy-list list-elements=&#x27;books&#x27; sy-list-options=&quot;listOptions&quot; &gt;
 
-                </sy-list>
-            </div>
+        &lt;/sy-list&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                                    </div>
+                                </tab>
+                                <tab heading="JavaScript">
+                                    <div plunker-content="javascript">
+                                        <pre ng-non-bindable><code data-language="javascript">angular.module(&#x27;demoApp&#x27;, [&#x27;synthAngular&#x27;, &#x27;synthAngular.templates&#x27;, &#x27;synthAngular.syForm&#x27;, &#x27;synthAngular.syValidation&#x27;, &#x27;synthAngular.syList&#x27;, &#x27;ui.bootstrap&#x27;]).controller(&#x27;ListCtrl&#x27;, function($scope, $q) {
+        $scope.books = [{
+            title: &quot;Manon Lescaut&quot;,
+            author: &quot;Abbé Prévost&quot;
+        }, {
+            title: &quot;Le Compte de Monte Cristo&quot;,
+            author: &quot;Dumas&quot;
+        }];
+        
+        $scope.getContent = function(item){
+            return item.author.toUpperCase();
+        };
+        
+        $scope.listOptions = {
+            title: &#x27;My list&#x27;,
+            fields: [{
+                property: &#x27;title&#x27;,
+                title: &#x27;Title&#x27;,
+                url: &#x27;editItem({id: item.title})&#x27;,
+                class: &#x27;title-class&#x27;
+            }, {
+                property: &#x27;author&#x27;,
+                title: &#x27;Author&#x27;
+            }, {
+                template: &#x27;&lt;p&gt;available scope : &lt;pre&gt;&quot;cell&quot; =&gt; cell definition defined by user&lt;/pre&gt;&lt;pre&gt;&quot;item&quot; =&gt; item from the collection&lt;/pre&gt;&lt;/p&gt;&#x27;,
+                title: &#x27;column with template&#x27;
+            }, {
+                templateUrl: &#x27;columnTemplate.html&#x27;,
+                title: &#x27;column with template url&#x27;
+            }, {
+                expression: $scope.getContent,
+                title: &#x27;column with content function&#x27;
+            }, {
+                expression: $scope.getContent,
+                title: &#x27;column with content function wrapped in a link&#x27;,
+                url: &#x27;editItem({id: item.title})&#x27;
+            }],
+            actionColumn: [{
+                icon: &#x27;pencil&#x27;,
+                url: &#x27;editItem({id: item.title})&#x27;
+            }, {
+                icon: &#x27;times&#x27;,
+                url: &#x27;removeItem({id: item.title})&#x27;,
+                
+            }],
+            actionColumnTitle: &#x27;actions&#x27;,
+            headerActions: [{
+                url: &#x27;addItem&#x27;,
+                title: &#x27; add&#x27;,
+                icon: &#x27;plus&#x27;
+            }]
+        };
+    });</code></pre>
+                                    </div>
+                                </tab>
+                            </tabset>
+                        </div>
+                    </div>
+                </section>
+        
         </div>
     </div>
 </body>
