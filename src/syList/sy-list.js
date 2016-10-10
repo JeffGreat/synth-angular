@@ -69,11 +69,11 @@ listDirective.directive('syListCell', ['$compile', '$state', '$templateCache',
                     el.html(html);
                 }
                 //regular property
-                else if (propertyValue && scope.cell.url) {
+                else if (propertyValue != undefined && scope.cell.url) {
                     var html = '<a ui-sref="' + scope.cell.url + '" ng-bind="item.'+scope.cell.property+'"></a>';
                     el.html($compile(html)(scope));
                 }
-                else if (propertyValue) {
+                else if (propertyValue != undefined) {
                     var html = '<span ng-bind="item.'+scope.cell.property+'"></span>';
                     el.html($compile(html)(scope));
                 }
